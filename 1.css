@@ -1,0 +1,286 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #eef3f8;
+    font-family: Arial, Helvetica, sans-serif;
+    overflow: hidden;
+}
+
+.workspace {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+}
+
+/* ---------------- 피펫 전체 컴포넌트 ---------------- */
+.pipette {
+    position: absolute;
+    width: 140px;
+    height: 420px;
+    z-index: 10;
+    cursor: grab;
+    touch-action: none;
+    user-select: none;
+}
+.pipette:active { cursor: grabbing; }
+.pipette.disabled .gear, .pipette.disabled .lever { opacity: 0.4; cursor: not-allowed; }
+
+/* 상단 기계식 네모 몸체 */
+.control-box {
+    position: absolute;
+    top: 60px;
+    left: 44px; 
+    width: 52px; 
+    height: 110px;
+    background: #cfd8dc; 
+    border: 3px solid #455a64;
+    border-radius: 6px;
+    z-index: 5;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+/* 꼭대기 빨간 피스톤 */
+.piston {
+    position: absolute;
+    top: 55px; 
+    left: 54px;  
+    width: 32px;         
+    height: 110px;      
+    background: #ff5a5a;
+    border: 3px solid #c0392b;
+    border-radius: 6px 6px 0 0;
+    z-index: 4;        
+    transition: transform .05s ease-out;
+    cursor: pointer;
+    box-shadow: inset 0 2px 4px rgba(255,255,255,0.3);
+}
+
+/* 버튼 영역 */
+.gear {
+    position: absolute;
+    top: 65px; left: 93px; width: 36px; height: 36px;
+    border-radius: 50%; border: 2px solid #064099;
+    background: repeating-conic-gradient(#0a55cc 0deg 15deg, #1e70ef 15deg 30deg);
+    cursor: pointer; transition: transform .05s linear; z-index: 6;
+}
+.gear-center {
+    position: absolute; left: 50%; top: 50%; transform: translate(-50%,-50%);
+    width: 10px; height: 10px; background: white; border-radius: 50%;
+}
+.lever {
+    position: absolute; left: 95px; top: 112px; width: 24px; height: 38px;
+    background: #ffd857; border: 2px solid #b79520; border-radius: 3px;
+    cursor: pointer; z-index: 6; perspective: 100px; transform-style: preserve-3d;
+    transform: rotateX(-12deg); box-shadow: 0 3px 0 #b79520, 0 4px 5px rgba(0,0,0,0.2);
+    transition: transform 0.1s, box-shadow 0.1s;
+}
+.lever:active { transform: rotateX(15deg) translateY(1px); box-shadow: 0 -2px 0 #b79520, 0 1px 2px rgba(0,0,0,0.15); }
+
+/* 하단 유리 몸체 */
+.body { position: absolute; top: 167px; left: 44px; width: 52px; height: 160px; background: transparent; z-index: 2; }
+.body-bg { position: absolute; left: 0; top: 0; width: 100%; height: 100%; background: rgba(226, 226, 226, 0.6); z-index: 1; }
+.scale { position: absolute; left: 6px; top: 15px; display: flex; flex-direction: column; justify-content: space-between; height: 130px; z-index: 4; }
+.scale span { display: block; width: 10px; height: 2px; background: #455a64; }
+.liquid-container { position: absolute; left: 0; top: 0; width: 100%; height: 100%; overflow: hidden; z-index: 3; pointer-events: none; }
+.liquid { position: absolute; left: 0; bottom: 0; width: 100%; height: 0%; background: #6ec8ff; transition: .08s linear; }
+
+/* 최하단 팁 */
+.tip { position: absolute; left: 44px; top: 326px; width: 52px; height: 100px; clip-path: polygon(0% 0%, 100% 0%, 55% 100%, 45% 100%); background: rgba(226, 226, 226, 0.6); overflow: hidden; z-index: 2; }
+.tip-liquid { position: absolute; left: 0; bottom: 0; width: 100%; height: 0%; background: #6ec8ff; transition: .08s linear; }
+.drop { position: absolute; left: 65px; top: 425px; width: 12px; height: 15px; background: #53b9ff; border-radius: 50% 50% 55% 55%; transform: rotate(45deg); opacity: 0; z-index: 1; }
+
+.status {
+    position: absolute; bottom: -45px; left: 50%; transform: translateX(-50%);
+    background: #455a64; color: white; padding: 4px 10px; border-radius: 20px;
+    font-size: 13px; font-weight: bold; white-space: nowrap; pointer-events: none;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+
+/* ---------------- NaOH 비커 ---------------- */
+.beaker {
+    position: absolute;
+    bottom: 40px;
+    left: 15%;
+    width: 160px;
+    height: 180px;
+    background: rgba(255, 255, 255, 0.2);
+    border: 4px solid #78909c;
+    border-top: none;
+    border-radius: 0 0 12px 12px;
+    z-index: 1;
+}
+.beaker::before, .beaker::after { content: ''; position: absolute; top: 0; width: 10px; height: 4px; background: #78909c; }
+.beaker::before { left: -10px; border-radius: 4px 0 0 4px; }
+.beaker::after { right: -10px; border-radius: 0 4px 4px 0; }
+.beaker-liquid { position: absolute; bottom: 0; left: 0; width: 100%; height: 75%; background: rgba(110, 200, 255, 0.3); border-top: 3px solid #4ba3e3; }
+.beaker.active .beaker-liquid { background: rgba(110, 200, 255, 0.45); }
+.beaker-label { position: absolute; top: 45%; left: 50%; transform: translate(-50%, -50%); background: #fff; border: 2px dashed #b0bec5; padding: 4px 12px; font-weight: bold; font-size: 16px; color: #37474f; border-radius: 4px; }
+
+/* ---------------- 개선된 중앙 배치 부피 플라스크 ---------------- */
+.flask {
+    position: absolute;
+    bottom: 40px;
+    left: 45%;
+    transform: translateX(-50%);
+    width: 160px;
+    height: 240px;
+    z-index: 1;
+}
+
+/* 긴 목 부분 */
+.flask-neck {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 50px;
+    height: 110px;
+    border: 4px solid #78909c;
+    border-bottom: none;
+    background: rgba(255, 255, 255, 0.2);
+    z-index: 2;
+    overflow: hidden; /* ⭐ 목 밖으로 가상 액체가 넘치지 않게 방지 */
+}
+
+/* 부피 플라스크 빨간 표선 */
+.flask-mark {
+    position: absolute;
+    bottom: 70px; 
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: #ff3d00;
+    box-shadow: 0 0 4px rgba(255,61,0,0.6);
+    z-index: 5;
+}
+
+/* 동그란 하부 몸통 구조 */
+.flask-bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 160px;
+    height: 140px;
+    border: 4px solid #78909c;
+    border-radius: 50% 50% 45% 45%;
+    background: rgba(255, 255, 255, 0.2);
+    z-index: 1;
+}
+
+/* 물이 둥글게 차오르도록 제한하는 몸통 컨테이너 */
+.flask-liquid-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 160px;
+    height: 140px; 
+    border-radius: 50% 50% 45% 45%; 
+    overflow: hidden; 
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* 플라스크 몸통(둥근 바닥) 내부 액체 */
+.flask-liquid {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 0%; /* JS에 의해 0% ~ 100% 가변 제어됨 */
+    background: rgba(110, 200, 255, 0.5);
+    border-top: 2px solid #1e70ef;
+    transition: height 0.1s linear;
+}
+
+/* ⭐ [HTML 수정 없음] 목(Neck) 내부에 생기는 가상 액체 레이어 */
+.flask-neck::before {
+    content: "";
+    position: absolute;
+    bottom: 0; /* 목 하단부터 시작 */
+    left: 0;
+    width: 100%;
+    /* JS에서 준 수치(--neck-height)를 바탕으로 높이 조절, 없으면 0px */
+    height: var(--neck-height, 0px); 
+    background: rgba(110, 200, 255, 0.5);
+    border-top: 2px solid #1e70ef;
+    transition: height 0.1s linear;
+    z-index: 3;
+}
+
+/* ---------------- 우측 감시 패널 ---------------- */
+.side-panel {
+    position: absolute; top: 0; right: 0; width: 320px; height: 100vh;
+    background: #263238; color: #eceff1; border-left: 4px solid #37474f;
+    padding: 20px; display: flex; flex-direction: column; gap: 20px; z-index: 20;
+}
+.panel-section { background: #1e272c; border: 2px solid #37474f; border-radius: 8px; padding: 15px; }
+.panel-section h3 { font-size: 14px; color: #90a4ae; margin-bottom: 10px; border-bottom: 1px dashed #37474f; padding-bottom: 5px; }
+.timer-section { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.start-btn { width: 100%; padding: 10px; background: #00e676; border: none; border-radius: 4px; color: #1b5e20; font-weight: bold; font-size: 15px; cursor: pointer; }
+.start-btn.running { background: #ff5252; color: #fff; }
+.timer-display { font-family: monospace; font-size: 32px; font-weight: bold; color: #ffeb3b; }
+.data-display-box { display: flex; flex-direction: column; gap: 8px; font-size: 12px; font-weight: bold; color: #b0bec5; }
+.data-display-box p { display: flex; justify-content: space-between; align-items: center; }
+.theory-display { color: #29b6f6; font-family: monospace; font-size: 14px; }
+.actual-display { color: #ff7043; font-family: monospace; font-size: 14px; }
+.status-static { color: #81c784; }
+.status-dynamic { color: #e57373; animation: blink 1s infinite alternate; }
+@keyframes blink { 0% { opacity: 0.5; } 100% { opacity: 1; } }
+
+/* ---------------- 증류수 비커 ---------------- */
+/* [수정] 증류수 비커 부드러운 회전 튜닝 */
+.water-beaker {
+    position: absolute;
+    bottom: 180px; 
+    left: 48%;    
+    transform: translateX(20px);
+    border-color: #90caf9;
+    cursor: pointer;
+    touch-action: none;
+    /* 💡 transition을 linear 대신 cubic-bezier나 ease-out으로 변경하여 지직거림 완화 */
+    transition: transform 0.25s cubic-bezier(0.25, 1, 0.5, 1); 
+    transform-origin: left top; 
+    z-index: 10;
+}
+
+/* 꾹 누르고 있을 때 플라스크 쪽으로 부드럽게 쪼르르 기울어지는 효과 */
+.beaker-pouring {
+    /* 💡 살짝 회전축과 위치를 부드럽게 고정 */
+    transform: translateX(20px) rotate(-35deg) translate(-10px, 12px);
+}
+
+.water-liquid {
+    background: rgba(144, 202, 249, 0.4) !important;
+    border-top: 3px solid #29b6f6 !important;
+}
+
+#experiment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f5f6fa;
+    border: 1px solid #dcdde1;
+    border-radius: 8px;
+    padding: 15px 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+.info-panel h3 { margin: 0 0 5px 0; color: #2f3640; font-size: 16px; }
+.info-panel p { margin: 0; color: #718093; font-size: 13px; line-height: 1.4; }
+
+.next-btn {
+    background: #44bd90;
+    color: white;
+    border: none;
+    padding: 12px 12px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+    white-space: nowrap;
+}
+.next-btn:hover { background: #4cd137; }
