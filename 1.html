@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>정밀 부피법 정량 실습</title>
+    <link rel="stylesheet" href="1.css">
+</head>
+<body>
+
+    <div class="workspace">
+      <div id="experiment-header">
+    <div class="info-panel">
+        <h3>🧪 과정 01: NaOH와 증류수 혼합용액 만들기</h3>
+        <p>NaOH 10ml를 피펫으로 정확히 취하여 부피플라스크에 넣은후, 증류수로 부피플라스크의 선을 맞추세요.
+      <br> 오른쪽의 실험시작 버튼을 눌러야 실험조작을 할 수 있습니다.<br>.</p>
+      
+    <button id="nextStepBtn" class="next-btn">
+    다음 단계로 넘어 가기 ➡️
+</button>
+    </div>
+        
+</div>
+        <div class="beaker" id="naohBeaker">
+            <div class="beaker-liquid"></div>
+            <div class="beaker-label">NaOH</div>
+        </div>
+
+        <div class="flask" id="volumetricFlask">
+            <div class="flask-neck">
+                <div class="flask-mark"></div>
+            </div>
+            <div class="flask-bottom"></div>
+            <div class="flask-liquid-container">
+                <div class="flask-liquid" id="flaskLiquid"></div>
+            </div>
+        </div>
+
+        <div class="beaker water-beaker" id="waterBeaker">
+            <div class="beaker-liquid water-liquid"></div>
+            <div class="beaker-label">증류수</div>
+            <div style="position:absolute; bottom:-25px; left:0; width:100%; text-align:center; font-size:10px; color:#90caf9;">누르고 있기 (Pour)</div>
+        </div>
+
+        <div class="side-panel">
+            <div class="panel-section timer-section">
+                <button class="start-btn" id="startBtn">실험 시작</button>
+                <div class="timer-display" id="timerDisplay">00:00.00</div>
+            </div>
+
+            <div class="panel-section">
+                <h3>이론 수치 (Theory)</h3>
+                <div class="data-display-box">
+                    <p>부피 플라스크 안의 NaOH 양: <span class="theory-display">10.000ml</span></p>
+                    <p>용액과 외부: <span class="status-static">정적 상태</span></p>
+                </div>
+            </div>
+
+            <div class="panel-section">
+                <h3>실제 측정치 (Actual)</h3>
+                <div class="data-display-box">
+                    <p>피펫 안의 NaOH 양: <span class="actual-display" id="pipetteVal" style="color:#29b6f6;">0.000ml</span></p>
+                    <p>부피 플라스크 안의 용액 양: <span class="actual-display" id="actualFlaskVal">0.000ml</span></p>
+                    <p>오차: <span class="actual-display" id="errorVal" style="color:#ff3d00;">0.000</span></p>
+                    <p>용액과 외부: <span class="status-dynamic">동적 상태 (CO₂ 반응 중)</span></p>
+                </div>
+            </div>
+
+            <div class="panel-section" style="border-color: #ff3d00;">
+                <h3 style="color: #ff8a80;">오차의 이유 (Analysis)</h3>
+                <div style="font-size: 11px; line-height: 1.6; color: #cfd8dc; display: flex; flex-direction: column; gap: 10px;">
+                    <div>
+                        <b style="color: #ffd54f;">(1) NaOH의 공기 중 CO₂ 흡수</b><br>
+                        NaOH가 공기 중의 이산화탄소와 반응하여 탄산나트륨(Na<sub>2</sub>CO<sub>3</sub>)으로 변해 실제 NaOH의 농도가 옅어짐.<br>
+                        <span style="color: #81c784; font-family: monospace; display:block; margin-top:4px; font-size:12px;">
+                            2NaOH + CO<sub>2</sub> &rarr; Na<sub>2</sub>CO<sub>3</sub> + H<sub>2</sub>O
+                        </span>
+                    </div>
+                    <hr style="border: none; border-top: 1px dashed #37474f;">
+                    <div>
+                        <b style="color: #ffd54f;">(2) 증류수의 산성화 & 붓기 오차</b><br>
+                        증류수에 이산화탄소가 녹아 탄산(H<sub>2</sub>CO<sub>3</sub>)을 형성함.
+                      <br><br>1초당 30~10%의 확률로 용액이 외부물질과 반응합니다.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="1.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const workspace = document.querySelector('.workspace');
+            const naohBeaker = document.getElementById('naohBeaker');
+            const waterBeaker = document.getElementById('waterBeaker');
+            const flask = document.getElementById('volumetricFlask');
+            
+            // 통합 실험 제어 엔진 가동
+            new ChemistryExperiment(workspace, naohBeaker, waterBeaker, flask);
+        });
+    </script>
+</body>
+</html>
