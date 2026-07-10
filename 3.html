@@ -1,0 +1,95 @@
+
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>정밀 부피법 정량 실습 - 결과</title>
+    <link rel="stylesheet" href="3.css">
+</head>
+<body>
+
+    <div class="workspace">
+        <div id="experiment-header">
+            <div class="info-panel">
+                <h3>🧪 과정 02: 부피 정량 및 용액 혼합</h3>
+                <p>실험 시작 버튼을 누른 후, 비커를 <b>꾹 누르고 있으면</b> 용액이 기울어져 눈금실린더로 투여됩니다.<br>원하는 양만큼 채운 뒤 밑의 버튼을 눌러 삼각 플라스크로 옮기세요.</p>
+            </div>
+            <button id="nextStepBtn" class="next-btn">
+                다음 단계로 넘어 가기 ➡️
+            </button>
+        </div>
+        
+        <div class="experiment-zone">
+            <div class="beaker" id="beakerAcetic">
+                <div class="beaker-liquid"></div>
+                <div class="beaker-label">아세트산</div>
+            </div>
+
+            <div class="cylinder-set">
+                <div class="cylinder" id="cylinder">
+                    <div class="cylinder-glass">
+                        <div class="cylinder-liquid" id="cylinderLiquid"></div>
+                        <div class="cylinder-marks">
+                            <div class="c-mark m20"></div>
+                            <div class="c-mark m30"></div>
+                        </div>
+                    </div>
+                    <div class="cylinder-base"></div>
+                </div>
+                <button class="pour-flask-btn" id="pourFlaskBtn">삼각 플라스크에 붓기 🫗</button>
+            </div>
+
+            <div class="beaker" id="beakerWater">
+                <div class="beaker-liquid"></div>
+                <div class="beaker-label">증류수</div>
+            </div>
+
+            <div class="flask" id="flask">
+                <div class="flask-glass">
+                    <div class="flask-liquid" id="flaskLiquid"></div>
+                </div>
+                <div class="flask-label">삼각 플라스크</div>
+            </div>
+        </div>
+        
+        <div class="side-panel">
+            <div class="panel-section timer-section">
+                <button class="start-btn" id="startBtn">실험 시작</button>
+                <div class="timer-display" id="timerDisplay">00:00.00</div>
+            </div>
+
+            <div class="panel-section">
+                <h3>이론 수치 (Theory)</h3>
+                <div class="data-display-box">
+                    <p>현재 주입된 용액 양: <span class="theory-display" id="theoryVol">0.000ml</span></p>
+                    <p>용액과 외부: <span class="status-static" id="theoryStatus">정적 상태</span></p>
+                </div>
+            </div>
+
+            <div class="panel-section">
+                <h3>실제 측정치 (Actual)</h3>
+                <div class="data-display-box">
+                    <p>누적 실험 오차: <span class="actual-display" id="errorVal" style="color:#ff3d00; font-size:14px;">0.000</span></p>
+                    <p>최종 측정 부피: <span class="actual-display" id="actualVol" style="color:#29b6f6;">0.000ml</span></p>
+                    <p>용액과 외부: <span class="status-dynamic" id="statusField">대기 상태</span></p>
+                </div>
+            </div>
+
+            <div class="panel-section" style="border-color: #ff3d00;">
+                <h3 style="color: #ff8a80;">오차의 이유 (Analysis)</h3>
+                <div style="font-size: 11px; line-height: 1.6; color: #cfd8dc; display: flex; flex-direction: column; gap: 10px;">
+                    <div>
+                        <b style="color: #ffd54f;">(1) NaOH의 공기 중 CO₂ 흡수</b><br>
+                        NaOH가 공기 중의 이산화탄소와 반응하여 탄산나트륨(Na<sub>2</sub>CO<sub>3</sub>)으로 변해 실제 NaOH의 농도가 옅어짐.<br>
+                        <span style="color: #81c784; font-family: monospace; display:block; margin-top:4px; font-size:12px;">
+                            2NaOH + CO<sub>2</sub> &rarr; Na<sub>2</sub>CO<sub>3</sub> + H<sub>2</sub>O
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="3.js"></script>
+</body>
+</html>
