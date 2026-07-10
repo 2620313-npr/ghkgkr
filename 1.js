@@ -227,7 +227,7 @@ class ChemistryExperiment {
                 }, 10);
 
                 this.co2Interval = setInterval(() => {
-                    if (Math.random() < 0.5) {
+                    if (Math.random() < 0.2) {
                         let stepError = 0.1 + Math.random() * 0.2;
                         this.accumulatedError += stepError;
                         this.update();
@@ -252,15 +252,19 @@ class ChemistryExperiment {
         });
 
         // 💡 [수정 완료] 넘어가기 버튼 이벤트를 패널 이벤트 영역 내부로 정상 이동시켰습니다.
-        if (this.dom.nextStepBtn) {
+       if (this.dom.nextStepBtn) {
             this.dom.nextStepBtn.addEventListener("click", () => {
+                // 타이머 및 실험 상태 정지
                 this.isRunning = false;
                 clearInterval(this.timerInterval);
                 clearInterval(this.co2Interval);
                 if (this.waterPourTimer) clearInterval(this.waterPourTimer);
 
+                // 현재 과정 1에서 쌓인 최종 오차값 추출
                 const finalError = this.accumulatedError.toFixed(3);
-                window.location.href = `stage3.html?error=${finalError}`;
+
+                // 🎯 [수정 완료] 다음 파일인 2.html로 오차값을 주렁주렁 매달고 이동합니다!
+                window.location.href = `2.html?error=${finalError}`;
             });
         }
     }
