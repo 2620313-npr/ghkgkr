@@ -5,56 +5,57 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>화학 실험 시뮬레이션 - 인트로</title>
     <style>
-        /* 🎨 인트로 페이지 깔끔하고 세련된 테마 디자인 */
+        /* 🎨 스크롤이 가능하도록 전면 수정된 세련된 테마 디자인 */
         body {
             margin: 0;
-            padding: 0;
+            padding: 40px 0; /* 💡 위아래 여백을 주어 스크롤 시 여유 공간 확보 */
             font-family: 'Pretendard', -apple-system, BlinkMacSystemFont, system-ui, Roboto, sans-serif;
             background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
             color: #f8fafc;
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
-            overflow: hidden;
+            min-height: calc(100vh - 80px); /* 💡 전체 화면 높이를 채우되 패딩 값 제외 */
+            overflow-y: auto; /* 💡 내용이 길어지면 브라우저 자체에 스크롤바(내리기) 생성 */
         }
 
         .intro-container {
             text-align: center;
             background: rgba(30, 41, 59, 0.7);
-            padding: 50px 60px;
+            padding: 40px 50px;
             border-radius: 24px;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
             border: 1px solid rgba(255, 255, 255, 0.1);
             backdrop-filter: blur(16px);
             max-width: 650px;
             width: 90%;
+            margin: auto; /* 💡 스크롤 환경에서 중앙 정렬 유지 */
             transform: translateY(0);
-            animation: fadeIn 1s ease-out;
+            animation: fadeIn 0.8s ease-out;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
+            from { opacity: 0; transform: translateY(15px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
         .icon {
-            font-size: 64px;
-            margin-bottom: 20px;
+            font-size: 56px;
+            margin-bottom: 15px;
             display: inline-block;
             animation: float 3s ease-in-out infinite;
         }
 
         @keyframes float {
             0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-10px); }
+            50% { transform: translateY(-8px); }
         }
 
         h1 {
-            font-size: 32px;
+            font-size: 28px;
             font-weight: 800;
             line-height: 1.4;
-            margin: 0 0 15px 0;
+            margin: 0 0 12px 0;
             background: linear-gradient(to right, #38bdf8, #818cf8);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -62,10 +63,10 @@
         }
 
         .subtitle {
-            font-size: 18px;
+            font-size: 16px;
             color: #94a3b8;
             font-weight: 500;
-            margin-bottom: 40px;
+            margin-bottom: 30px;
             letter-spacing: 1px;
         }
 
@@ -73,18 +74,19 @@
         .reason-box {
             text-align: left;
             background: rgba(15, 23, 42, 0.5);
-            padding: 20px 25px;
+            padding: 18px 22px;
             border-radius: 16px;
-            margin-bottom: 45px;
+            margin-bottom: 35px;
             border-left: 4px solid #38bdf8;
         }
 
         .reason-box p {
-            margin: 8px 0;
+            margin: 10px 0;
             font-size: 14px;
             color: #cbd5e1;
             display: flex;
             align-items: center;
+            line-height: 1.5;
         }
 
         .reason-box p::before {
@@ -101,26 +103,26 @@
             background: linear-gradient(90deg, #2563eb, #1d4ed8);
             color: white;
             border: none;
-            padding: 16px 40px;
-            font-size: 18px;
+            padding: 14px 36px;
+            font-size: 16px;
             font-weight: 700;
             border-radius: 12px;
             cursor: pointer;
             box-shadow: 0 4px 14px rgba(37, 99, 235, 0.4);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: all 0.2s ease-in-out;
             display: inline-flex;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
         }
 
         .start-btn:hover {
             background: linear-gradient(90deg, #3b82f6, #2563eb);
-            transform: translateY(-3px);
+            transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(37, 99, 235, 0.6);
         }
 
         .start-btn:active {
-            transform: translateY(-1px);
+            transform: translateY(0);
         }
     </style>
 </head>
@@ -134,12 +136,12 @@
         <div class="subtitle">20313 우승연</div>
 
         <div class="reason-box">
-            <p>메니스크스(표선) 읽기 시 발생하는 인간의 시각 측정 오차</p>
-            <p>기구 내벽에 잔류하여 완벽히 배출되지 않는 용액의 손실</p>
-            <p>공기 중의 이산화탄소($\text{CO}_2$) 흡수로 인한 시약의 변질</p>
+            <p>이론값과 실제값의 비교</p>
+            <p>사용자가 직접 조작하여 하는 가상의 실험실</p>
+            <p>외부환경과 용액의 반응으로 인한 오차 등 현실반영</p>
         </div>
 
-        <button class="start-btn" onclick="location.href='1.html'">
+        <button class="start-btn" onclick="location.href='stage2.html'">
             실험 시작하기 ➡️
         </button>
     </div>
