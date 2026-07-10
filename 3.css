@@ -1,0 +1,286 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background: #eef3f8;
+    font-family: Arial, Helvetica, sans-serif;
+    overflow: hidden;
+}
+
+.workspace {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    padding: 20px;
+    padding-right: 340px;
+}
+
+/* ---------------- 상단 헤더 패널 ---------------- */
+#experiment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f5f6fa;
+    border: 1px solid #dcdde1;
+    border-radius: 8px;
+    padding: 15px 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+.info-panel h3 { margin: 0 0 5px 0; color: #2f3640; font-size: 16px; }
+.info-panel p { margin: 0; color: #718093; font-size: 13px; line-height: 1.4; }
+
+.next-btn {
+    background: #44bd90;
+    color: white;
+    border: none;
+    padding: 12px 12px;
+    border-radius: 6px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+    white-space: nowrap;
+}
+.next-btn:hover { background: #4cd137; }
+
+/* ---------------- 실험 도구 정렬 구역 (고정 픽셀 스케일) ---------------- */
+/* ---------------- 실험 도구 정렬 구역 (중앙 정렬 조정) ---------------- */
+.experiment-zone {
+    position: absolute;
+    bottom: 40px;
+    left: calc(50% - 480px); /* 화면 전체 너비의 중앙을 기준으로 배치 구역 정렬 */
+    width: 750px;      
+    height: 420px;
+    user-select: none;
+}
+
+/* ---------------- 눈금실린더 컴포넌트 세트 ---------------- */
+.cylinder-set {
+    position: absolute;
+    bottom: 0;
+    left: 240px;
+    width: 100px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+.cylinder {
+    position: relative;
+    width: 80px;       
+    height: 260px;      
+}
+
+.cylinder-glass {
+    position: absolute;
+    bottom: 15px;
+    left: 15px;
+    width: 50px;       
+    height: 230px;
+    background: rgba(100, 223, 223, 0.15);
+    border: 3px solid #4bcffa; 
+    border-top: none;
+    border-radius: 0 0 5px 5px;
+    overflow: hidden;
+}
+
+.cylinder-base {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 80px;
+    height: 15px;
+    background: rgba(100, 223, 223, 0.3);
+    border: 3px solid #4bcffa;
+    border-radius: 4px;
+}
+
+.cylinder-liquid {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 0%;
+    background: rgba(43, 174, 227, 0.4);
+    border-top: 2px solid #29b6f6;
+    transition: height 0.1s linear;
+}
+
+.cylinder-marks {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
+.c-mark {
+    position: absolute;
+    left: 0;
+    width: 14px;
+    height: 2px;
+    background: #2c3e50;
+}
+
+.c-mark::after {
+    position: absolute;
+    left: 18px;
+    top: -7px;
+    font-size: 11px;
+    font-weight: bold;
+    color: #2c3e50;
+    font-family: Arial, sans-serif;
+}
+.c-mark.m20 { bottom: 40%; }
+.c-mark.m20::after { content: '20'; }
+.c-mark.m30 { bottom: 60%; }
+.c-mark.m30::after { content: '30'; }
+
+/* 붓기 제어 버튼 */
+.pour-flask-btn {
+    background: #3498db;
+    color: white;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: bold;
+    cursor: pointer;
+    white-space: nowrap;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: background 0.2s;
+}
+.pour-flask-btn:hover { background: #2980b9; }
+.pour-flask-btn:active { transform: scale(0.95); }
+
+/* ---------------- 비커 스타일 (실린더 입구 상단 완전 고정) ---------------- */
+.beaker {
+    position: absolute;
+    width: 100px;          
+    height: 110px;         
+    background: rgba(255, 255, 255, 0.2);
+    border: 3px solid #78909c;
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    z-index: 15;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+#beakerAcetic {
+    top: 50px;
+    left: 130px;
+    transform-origin: bottom right; 
+}
+
+#beakerWater {
+    top: 50px;
+    left: 330px;
+    transform-origin: bottom left;
+}
+
+#beakerAcetic.pouring-left {
+    transform: rotate(38deg) translate(20px, 8px);
+}
+#beakerWater.pouring-right {
+    transform: rotate(-38deg) translate(-20px, 8px);
+}
+
+.beaker::before, .beaker::after { 
+    content: ''; 
+    position: absolute; 
+    top: 0; 
+    width: 6px; 
+    height: 3px; 
+    background: #78909c; 
+}
+.beaker::before { left: -6px; border-radius: 2px 0 0 2px; }
+.beaker::after { right: -8px; border-radius: 0 2px 2px 0; }
+
+.beaker-liquid { 
+    position: absolute; 
+    bottom: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 75%; 
+    background: rgba(110, 200, 255, 0.3); 
+    border-top: 2px solid #4ba3e3; 
+}
+.beaker.active .beaker-liquid { background: rgba(110, 200, 255, 0.45); }
+
+.beaker-label { 
+    position: absolute; 
+    top: 45%; 
+    left: 50%; 
+    transform: translate(-50%, -50%); 
+    background: #fff; 
+    border: 1.5px dashed #b0bec5; 
+    padding: 2px 6px; 
+    font-weight: bold; 
+    font-size: 11px;       
+    color: #37474f; 
+    border-radius: 4px; 
+    pointer-events: none;
+}
+
+/* ---------------- 우측 삼각 플라스크 ---------------- */
+.flask {
+    position: absolute;
+    bottom: 35px;      
+    left: 490px;       
+    width: 130px;      
+    height: 155px;
+    user-select: none;
+}
+
+.flask-glass {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    background: rgba(100, 223, 223, 0.15);
+    border: 3.5px solid rgba(100, 223, 223, 0.5);
+    border-top: none;
+    clip-path: polygon(40% 0%, 60% 0%, 60% 25%, 100% 100%, 0% 100%, 40% 25%);
+}
+
+.flask-liquid {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 0%;        
+    background: rgba(43, 174, 227, 0.35);
+    transition: height 0.5s ease;
+}
+
+.flask-label {
+    position: absolute;
+    bottom: -25px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 12px;
+    font-weight: bold;
+    color: #546e7a;
+    white-space: nowrap;
+}
+
+/* ---------------- 우측 감시 패널 ---------------- */
+.side-panel {
+    position: absolute; top: 0; right: 0; width: 320px; height: 100vh;
+    background: #263238; color: #eceff1; border-left: 4px solid #37474f;
+    padding: 20px; display: flex; flex-direction: column; gap: 20px; z-index: 20; overflow-y: auto;
+}
+.panel-section { background: #1e272c; border: 2px solid #37474f; border-radius: 8px; padding: 15px; }
+.panel-section h3 { font-size: 14px; color: #90a4ae; margin-bottom: 10px; border-bottom: 1px dashed #37474f; padding-bottom: 5px; }
+.timer-section { display: flex; flex-direction: column; align-items: center; gap: 10px; }
+.start-btn { width: 100%; padding: 10px; background: #00e676; border: none; border-radius: 4px; color: #1b5e20; font-weight: bold; font-size: 15px; cursor: pointer; }
+.timer-display { font-family: monospace; font-size: 32px; font-weight: bold; color: #ffeb3b; }
+.data-display-box { display: flex; flex-direction: column; gap: 8px; font-size: 12px; font-weight: bold; color: #b0bec5; }
+.data-display-box p { display: flex; justify-content: space-between; align-items: center; }
+.theory-display { color: #29b6f6; font-family: monospace; font-size: 14px; }
+.actual-display { color: #ff7043; font-family: monospace; font-size: 14px; }
+.status-static { color: #81c784; }
