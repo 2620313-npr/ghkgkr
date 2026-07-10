@@ -138,7 +138,7 @@
         <div class="reason-box">
             <p>이론값과 실제값의 비교</p>
             <p>사용자가 직접 조작하여 하는 가상의 실험실</p>
-            <p>외부환경과 용액의 반응으로 인한 오차 등 현실반영</p>
+            <p>오타가 있거나 과학적 오류가 있어도 눈감고 모른척</p>
         </div>
 
         <button class="start-btn" onclick="location.href='stage2.html'">
