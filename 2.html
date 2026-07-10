@@ -1,0 +1,62 @@
+
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>정밀 부피법 정량 실습 - 결과</title>
+    <link rel="stylesheet" href="2.css">
+</head>
+<body>
+
+    <div class="workspace" id="workspace">
+        <div id="experiment-header">
+            <div class="info-panel">
+                <h3>🧪 과정 02: 뷰렛 세팅 </h3>
+                <p>이전 단계에서 전달된 실험 오차 데이터가 유지되어 과정을 진행합니다. <br>오른쪽의 실험 시작 버튼을 눌러야 조작가능 상태가 됩니다.<br>뷰렛 하단의 공기를 제거한후, 눈금 0, 1, 2 중 하나에 맞추세요.</p>
+            </div>
+            <button id="nextStepBtn" class="next-btn">
+                다음 단계로 넘어 가기 ➡️
+            </button>
+        </div>
+        
+        <div class="side-panel">
+            <div class="panel-section timer-section">
+                <button class="start-btn" id="startBtn">실험 시작</button>
+                <div class="timer-display" id="timerDisplay">00:00.00</div>
+            </div>
+
+            <div class="panel-section">
+                <h3>이론 수치 (Theory)</h3>
+                <div class="data-display-box">
+                    <p>목표 수용액 양: <span class="theory-display" id="theoryVolume">25.00ml</span></p>
+                    <p>용액과 외부: <span class="status-static">정적 상태</span></p>
+                </div>
+            </div>
+
+            <div class="panel-section">
+                <h3>실제 측정치 (Actual)</h3>
+                <div class="data-display-box">
+                    <p>뷰렛 안의 수용액 양: <span class="actual-display" id="actualVolume" style="color:#00e676; font-size:14px; font-family:monospace;">0.00ml</span></p>
+                    <p>이전 단계 누적 오차: <span class="actual-display" id="errorVal" style="color:#ff3d00; font-size:14px;">0.000</span></p>
+                    <p>용액과 외부: <span class="status-dynamic" id="statusField">대기 상태</span></p>
+                </div>
+            </div>
+
+            <div class="panel-section" style="border-color: #ff3d00;">
+                <h3 style="color: #ff8a80;">오차의 이유 (Analysis)</h3>
+                <div style="font-size: 11px; line-height: 1.6; color: #cfd8dc; display: flex; flex-direction: column; gap: 10px;">
+                    <div>
+                        <b style="color: #ffd54f;">(1) NaOH의 공기 중 CO₂ 흡수</b><br>
+                        NaOH가 공기 중의 이산화탄소와 반응하여 탄산나트륨(Na<sub>2</sub>CO<sub>3</sub>)으로 변해 실제 NaOH의 농도가 옅어짐.<br>
+                        <span style="color: #81c784; font-family: monospace; display:block; margin-top:4px; font-size:12px;">
+                            2NaOH + CO<sub>2</sub> &rarr; Na<sub>2</sub>CO<sub>3</sub> + H<sub>2</sub>O
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="2.js"></script>
+</body>
+</html>
