@@ -141,7 +141,7 @@
             <p>오타가 있거나 과학적 오류가 있어도 눈감고 모른척</p>
         </div>
 
-        <button class="start-btn" onclick="location.href='stage2.html'">
+        <button class="start-btn" onclick="location.href='2.html'">
             실험 시작하기 ➡️
         </button>
     </div>
